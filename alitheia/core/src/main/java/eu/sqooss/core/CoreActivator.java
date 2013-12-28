@@ -37,6 +37,8 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
+import com.google.inject.Guice;
+
 
 public class CoreActivator implements BundleActivator {
 
@@ -46,9 +48,17 @@ public class CoreActivator implements BundleActivator {
     /** Keeps the <code>AlitheaCore</code>'s service registration instance. */
     private ServiceRegistration sregCore;
 
-    public void start(BundleContext bc) throws Exception {
+    public void start(BundleContext bc) {
         core = new AlitheiaCore(bc);
         sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
+        System.out.println("*** Starting inject");
+        try {
+        	Guice.createInjector(new AlitheiaCoreModule()).injectMembers(core);
+        	System.out.println("*** Injector created");
+        } catch(Throwable t) {
+        	System.out.println("*** something went wrong while injecting");
+        	t.printStackTrace();
+        }
     }
   
     public void stop(BundleContext bc) throws Exception {

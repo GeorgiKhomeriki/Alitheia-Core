@@ -42,6 +42,8 @@ import java.util.Vector;
 
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Inject;
+
 import eu.sqooss.impl.service.admin.AdminServiceImpl;
 import eu.sqooss.impl.service.cluster.ClusterNodeServiceImpl;
 import eu.sqooss.impl.service.db.DBServiceImpl;
@@ -51,7 +53,6 @@ import eu.sqooss.impl.service.metricactivator.MetricActivatorImpl;
 import eu.sqooss.impl.service.pa.PAServiceImpl;
 import eu.sqooss.impl.service.rest.ResteasyServiceImpl;
 import eu.sqooss.impl.service.scheduler.SchedulerServiceImpl;
-import eu.sqooss.impl.service.tds.TDSServiceImpl;
 import eu.sqooss.impl.service.updater.UpdaterServiceImpl;
 import eu.sqooss.impl.service.webadmin.WebadminServiceImpl;
 import eu.sqooss.service.admin.AdminService;
@@ -76,6 +77,12 @@ import eu.sqooss.service.webadmin.WebadminService;
  */
 public class AlitheiaCore {
 
+//	@Inject
+//	DBService dbService;
+	
+	@Inject
+	TDSService tdsService;
+	
     /** The Logger component's instance. */
     private LogManagerImpl logger;
     
@@ -106,7 +113,7 @@ public class AlitheiaCore {
     	//All services after this point are guaranteed to have access to the DB 
     	services.add(PluginAdmin.class);
     	services.add(Scheduler.class);
-    	services.add(TDSService.class);
+    	//services.add(TDSService.class);
     	services.add(ClusterNodeService.class);
     	services.add(FDSService.class);
     	services.add(MetricActivator.class);
@@ -119,7 +126,7 @@ public class AlitheiaCore {
     	implementations.put(DBService.class, DBServiceImpl.class);	 
     	implementations.put(PluginAdmin.class, PAServiceImpl.class);
     	implementations.put(Scheduler.class, SchedulerServiceImpl.class);
-    	implementations.put(TDSService.class, TDSServiceImpl.class);
+    	//implementations.put(TDSService.class, TDSServiceImpl.class);
     	implementations.put(ClusterNodeService.class, ClusterNodeServiceImpl.class);
     	implementations.put(FDSService.class, FDSServiceImpl.class);
     	implementations.put(MetricActivator.class, MetricActivatorImpl.class);
@@ -289,7 +296,10 @@ public class AlitheiaCore {
      * @return The WebAdmin component's instance.
      */
     public WebadminService getWebadminService() {
-        return (WebadminService)instances.get(WebadminService.class);
+        //return (WebadminService)instances.get(WebadminService.class);
+    	System.out.println("******* getWebadminService()");
+    	return (WebadminService)instances.get(WebadminService.class);
+        //return webadminService;
     }
 
     /**
@@ -307,6 +317,7 @@ public class AlitheiaCore {
      * @return The DB component's instance.
      */
     public DBService getDBService() {
+    	System.out.println("******* getDBService()");
         //return (DBServiceImpl)instances.get(DBService.class);
         return DBServiceImpl.getInstance(); // <-- Ugly but required for testing.
     }
@@ -331,6 +342,7 @@ public class AlitheiaCore {
      * @return The FDS component's instance.
      */
     public FDSService getFDSService() {
+    	System.out.println("******* getFDSService()");
         return (FDSService)instances.get(FDSService.class);
     }
 
@@ -343,6 +355,7 @@ public class AlitheiaCore {
      * @return The Scheduler component's instance.
      */
     public Scheduler getScheduler() {
+    	System.out.println("******* getSchedulerService()");
         return (Scheduler)instances.get(Scheduler.class);
     }
 
@@ -355,6 +368,7 @@ public class AlitheiaCore {
      * @return The Security component's instance.
      */
     public SecurityManager getSecurityManager() {
+    	System.out.println("******* getSecurityManager()");
         return (SecurityManager)instances.get(SecurityManager.class);
     }
 
@@ -367,7 +381,9 @@ public class AlitheiaCore {
      * @return The TDS component's instance.
      */
     public TDSService getTDSService() {
-        return (TDSService)instances.get(TDSService.class);
+    	System.out.println("******* getTDSService(): " + tdsService);
+    	return tdsService;
+//        return (TDSService)instances.get(TDSService.class);
     }
 
     /**
@@ -379,6 +395,7 @@ public class AlitheiaCore {
      * @return The Updater component's instance.
      */
     public UpdaterService getUpdater() {
+    	System.out.println("******* getUpdater()");
         return (UpdaterService)instances.get(UpdaterService.class);
     }
 
@@ -391,6 +408,7 @@ public class AlitheiaCore {
      * @return The ClusterNodeSerive component's instance.
      */
     public ClusterNodeService getClusterNodeService() {
+    	System.out.println("******* getClusterNodeService()");
         return (ClusterNodeService)instances.get(ClusterNodeService.class);
     }
 
@@ -403,6 +421,7 @@ public class AlitheiaCore {
      * @return The Metric Activator component's instance.
      */
     public MetricActivator getMetricActivator() {
+    	System.out.println("******* getMetricActivator()");
     	return (MetricActivator)instances.get(MetricActivator.class);
     }
     
@@ -412,6 +431,7 @@ public class AlitheiaCore {
      * @return The Administration Service component's instance.
      */
     public AdminService getAdminService() {
+    	System.out.println("******* getAdminService()");
     	return (AdminService)instances.get(AdminService.class);
     }
 	
