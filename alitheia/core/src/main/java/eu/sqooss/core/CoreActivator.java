@@ -50,7 +50,6 @@ public class CoreActivator implements BundleActivator {
 
     public void start(BundleContext bc) {
         core = new AlitheiaCore(bc);
-        sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
         System.out.println("*** Starting inject");
         try {
         	Guice.createInjector(new AlitheiaCoreModule()).injectMembers(core);
@@ -59,6 +58,8 @@ public class CoreActivator implements BundleActivator {
         	System.out.println("*** something went wrong while injecting");
         	t.printStackTrace();
         }
+        core.init();
+        sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
     }
   
     public void stop(BundleContext bc) throws Exception {

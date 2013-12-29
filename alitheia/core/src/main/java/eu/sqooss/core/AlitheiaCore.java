@@ -77,8 +77,8 @@ import eu.sqooss.service.webadmin.WebadminService;
  */
 public class AlitheiaCore {
 
-//	@Inject
-//	DBService dbService;
+	@Inject
+	DBService dbService;
 	
 	@Inject
 	TDSService tdsService;
@@ -147,7 +147,7 @@ public class AlitheiaCore {
         err("Instance Created");
         
         instances = new HashMap<Class<? extends AlitheiaCoreService>, Object>();
-        init();
+        //init();
     }
 
     /**
@@ -200,9 +200,9 @@ public class AlitheiaCore {
      * This method performs initialization of the <code>AlitheiaCore</code>
      * object by instantiating the core components, by calling the 
      * method on their service interface. Failures are reported but do not 
-     * block the instatiation process).
+     * block the instantiation process).
      */
-    private void init() {
+    public void init() {
 
         err("Required services online, initialising");
 
@@ -214,12 +214,12 @@ public class AlitheiaCore {
         instances.put(LogManager.class, logger);
         err("Service " + LogManagerImpl.class.getName() + " started");
 
-        DBService db = DBServiceImpl.getInstance();
-        db.setInitParams(bc, logger.createLogger("sqooss.db"));
-        if (!db.startUp()) {
+        //DBService db = DBServiceImpl.getInstance();
+        dbService.setInitParams(bc, logger.createLogger("sqooss.db"));
+        if (!dbService.startUp()) {
             err("Cannot start the DB service, aborting");
         }
-        instances.put(DBService.class, db);
+        //instances.put(DBService.class, db);
         err("Service " + DBServiceImpl.class.getName() + " started");
 
         for (Class<? extends AlitheiaCoreService> s : services) {
@@ -317,9 +317,10 @@ public class AlitheiaCore {
      * @return The DB component's instance.
      */
     public DBService getDBService() {
-    	System.out.println("******* getDBService()");
+    	System.out.println("******* getDBService(): " + dbService);
         //return (DBServiceImpl)instances.get(DBService.class);
-        return DBServiceImpl.getInstance(); // <-- Ugly but required for testing.
+        //return DBServiceImpl.getInstance(); // <-- Ugly but required for testing.
+    	return dbService;
     }
     
     /**

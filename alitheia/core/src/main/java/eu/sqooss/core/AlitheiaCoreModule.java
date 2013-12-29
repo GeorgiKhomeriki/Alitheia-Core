@@ -5,7 +5,9 @@ package eu.sqooss.core;
 
 import com.google.inject.AbstractModule;
 
+import eu.sqooss.impl.service.db.DBServiceImpl;
 import eu.sqooss.impl.service.tds.TDSServiceImpl;
+import eu.sqooss.service.db.DBService;
 import eu.sqooss.service.tds.TDSService;
 
 public class AlitheiaCoreModule extends AbstractModule {
@@ -15,6 +17,7 @@ public class AlitheiaCoreModule extends AbstractModule {
 		System.out.println("*** AlitheiaCoreModule.configure() called");
 		// note: the service is exported to the registry at injection time
 		bind(TDSService.class).to(TDSServiceImpl.class);
+		bind(DBService.class).to(DBServiceImpl.class);
 		//bind(export(TDSService.class)).toProvider(service(new TDSServiceImpl()).export());
 	}
 
