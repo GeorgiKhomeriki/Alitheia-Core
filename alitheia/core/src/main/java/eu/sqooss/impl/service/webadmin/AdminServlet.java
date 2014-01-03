@@ -68,8 +68,8 @@ import eu.sqooss.service.webadmin.WebadminService;
 @Singleton
 public class AdminServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
-    private static BundleContext bc = null;
-    private static WebadminService webadmin = null;
+    private BundleContext bc;
+    private WebadminService webadmin;
 
     /// Logger given by our owner to write log messages to.
     private Logger logger = null;
@@ -97,11 +97,11 @@ public class AdminServlet extends HttpServlet {
     
     @Inject
     public AdminServlet(@Assisted BundleContext bc,
-            WebadminService webadmin,
-            @Assisted Logger logger,
-            @Assisted VelocityEngine ve) {
-        AdminServlet.webadmin = webadmin;
-        AdminServlet.bc = bc;
+    		@Assisted Logger logger,
+    		WebadminService webadmin,
+            VelocityEngine ve) {
+        this.webadmin = webadmin;
+        this.bc = bc;
         this.ve = ve;
         this.logger = logger;
         
