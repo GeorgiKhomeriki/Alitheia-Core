@@ -45,12 +45,7 @@ import org.apache.velocity.VelocityContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
-import com.google.inject.Guice;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-
 import eu.sqooss.core.AlitheiaCore;
-import eu.sqooss.core.AlitheiaCoreModule;
 import eu.sqooss.service.cluster.ClusterNodeService;
 import eu.sqooss.service.db.DBService;
 import eu.sqooss.service.logging.LogManager;
@@ -71,7 +66,6 @@ public abstract class AbstractView {
     protected static Logger sobjLogger = null;
 
     // Service components
-    //@Inject
     protected DBService sobjDB = null;
     protected static MetricActivator compMA = null;
     protected static PluginAdmin sobjPA = null;
@@ -123,9 +117,6 @@ public abstract class AbstractView {
                 sobjLogger = sobjLogManager.createLogger(
                         Logger.NAME_SQOOSS_WEBADMIN);
             }
-            
-//            injector.injectMembers(this);
-            System.out.println("*** [AbstractView] DBService: " + sobjDB);
             
             // Get the database component's instance
             //sobjDB = sobjCore.getDBService();
