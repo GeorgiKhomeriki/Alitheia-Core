@@ -41,6 +41,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.service.http.HttpService;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import eu.sqooss.service.logging.Logger;
 import eu.sqooss.service.webadmin.WebadminService;
 
@@ -52,7 +55,11 @@ import eu.sqooss.service.webadmin.WebadminService;
  * basic system information such as uptime, number of running/failed
  * jobs, etc.
  */
+@Singleton
 public class WebadminServiceImpl implements WebadminService {
+	
+	@Inject
+	private AdminServletFactory adminServletFactory;
 
     /**
      * The Velocity Engine is used to to provide services for
@@ -145,7 +152,7 @@ public class WebadminServiceImpl implements WebadminService {
             try {
                 sobjHTTPService.registerServlet(
                     "/",
-                    new AdminServlet(bc, this, logger, ve),
+                    adminServletFactory.create(bc, logger, ve),
                     new Hashtable(),
                     null);
             }

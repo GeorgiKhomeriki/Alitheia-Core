@@ -314,6 +314,7 @@ public class AlitheiaCore {
 	 * @return The DB component's instance.
 	 */
 	public DBService getDBService() {
+		System.out.println("*** [AlitheiaCore] DB Service: " + dbService);
 		return dbService;
 	}
 

@@ -39,36 +39,38 @@ import org.osgi.framework.ServiceRegistration;
 
 import com.google.inject.Guice;
 
+import eu.sqooss.impl.service.webadmin.WebAdminModule;
 
 public class CoreActivator implements BundleActivator {
 
-    /** Keeps the <code>AlitheaCore</code> instance. */
-    private AlitheiaCore core;
-    
-    /** Keeps the <code>AlitheaCore</code>'s service registration instance. */
-    private ServiceRegistration sregCore;
+	/** Keeps the <code>AlitheaCore</code> instance. */
+	private AlitheiaCore core;
 
-    public void start(BundleContext bc) {
-        core = new AlitheiaCore(bc);
-        System.out.println("*** Starting inject");
-        try {
-        	Guice.createInjector(new AlitheiaCoreModule()).injectMembers(core);
-        	System.out.println("*** Injector created");
-        } catch(Throwable t) {
-        	System.out.println("*** something went wrong while injecting");
-        	t.printStackTrace();
-        }
-        core.init();
-        sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
-    }
-  
-    public void stop(BundleContext bc) throws Exception {
-    	core.shutDown();
-    	if (sregCore != null) {
-    		sregCore.unregister();
-    	}
-    	core = null;
-    }
+	/** Keeps the <code>AlitheaCore</code>'s service registration instance. */
+	private ServiceRegistration sregCore;
+
+	public void start(BundleContext bc) {
+		core = new AlitheiaCore(bc);
+		System.out.println("*** Starting inject");
+		try {
+			Guice.createInjector(new AlitheiaCoreModule(), new WebAdminModule())
+					.injectMembers(core);
+			System.out.println("*** Injector created");
+		} catch (Throwable t) {
+			System.out.println("*** something went wrong while injecting");
+			t.printStackTrace();
+		}
+		core.init();
+		sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
+	}
+
+	public void stop(BundleContext bc) throws Exception {
+		core.shutDown();
+		if (sregCore != null) {
+			sregCore.unregister();
+		}
+		core = null;
+	}
 }
 
-//vi: ai nosi sw=4 ts=4 expandtab
+// vi: ai nosi sw=4 ts=4 expandtab
