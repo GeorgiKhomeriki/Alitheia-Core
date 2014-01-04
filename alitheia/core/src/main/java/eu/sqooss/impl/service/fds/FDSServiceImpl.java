@@ -75,6 +75,10 @@ public class FDSServiceImpl implements FDSService, Runnable {
     
     private DBService dbs;
 
+    private OnDiskCheckoutFactory onDiskCheckoutFactory;
+    
+    private TimelineFactory timelineFactory;
+    
     /**
      * The FDS is configured to place checkouts -- which are the main things
      * that the FDS is supposed to manage -- somewhere in the filesystem. This
@@ -122,9 +126,13 @@ public class FDSServiceImpl implements FDSService, Runnable {
     private static final int INT_AS_HEX_LENGTH = 8;
 
     @Inject
-    public FDSServiceImpl(TDSService tds, DBService dbs) {
+    public FDSServiceImpl(TDSService tds, DBService dbs, 
+    		OnDiskCheckoutFactory onDiskCheckoutFactory,
+    		TimelineFactory timelineFactory) {
     	this.tds = tds;
     	this.dbs = dbs;
+    	this.onDiskCheckoutFactory = onDiskCheckoutFactory;
+    	this.timelineFactory = timelineFactory;
     }
 
     /**
@@ -177,10 +185,10 @@ public class FDSServiceImpl implements FDSService, Runnable {
             return null;
         }
 
+        OnDiskCheckout odc = onDiskCheckoutFactory.create(scm, path, pv, checkoutRoot);
         // Now checkoutRoot exists and is a directory.
         logger.info("Created checkout root <" + checkoutRoot + ">");
-        OnDiskCheckoutImpl c = new OnDiskCheckoutImpl(scm, path, pv, checkoutRoot);
-        return c;
+        return odc;
     }
 
     /**
@@ -665,7 +673,7 @@ public class FDSServiceImpl implements FDSService, Runnable {
     }
 
     public Timeline getTimeline(StoredProject c) {
-        return new TimelineImpl(c);
+    	return timelineFactory.create(c);
     }
 
     public void run() {

@@ -39,6 +39,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import com.google.inject.Guice;
 
+import eu.sqooss.impl.service.fds.FDSServiceModule;
 import eu.sqooss.impl.service.webadmin.WebAdminModule;
 
 public class CoreActivator implements BundleActivator {
@@ -53,7 +54,8 @@ public class CoreActivator implements BundleActivator {
 		core = new AlitheiaCore(bc);
 		System.out.println("*** Starting inject");
 		try {
-			Guice.createInjector(new AlitheiaCoreModule(), new WebAdminModule())
+			Guice.createInjector(new AlitheiaCoreModule(),
+					new WebAdminModule(), new FDSServiceModule())
 					.injectMembers(core);
 			System.out.println("*** Injector created");
 		} catch (Throwable t) {
