@@ -56,7 +56,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 
-import eu.sqooss.core.AlitheiaCore;
 import eu.sqooss.service.admin.AdminAction;
 import eu.sqooss.service.admin.AdminService;
 import eu.sqooss.service.admin.actions.AddProject;
@@ -75,6 +74,8 @@ public class AdminServlet extends HttpServlet {
     private Logger logger;
     
     private DBService db;
+    
+    private AdminService adminService;
 
     // Content tables
     private Hashtable<String, String> dynamicContentMap = null;
@@ -102,6 +103,7 @@ public class AdminServlet extends HttpServlet {
             VelocityEngine ve,
             VelocityContext vc,
             DBService db,
+            AdminService adminService,
             WebAdminRendererFactory webAdminRendererFactory,
             PluginsViewFactory pluginsViewFactory,
             ProjectsViewFactory projectsViewFactory) {
@@ -111,6 +113,7 @@ public class AdminServlet extends HttpServlet {
         this.ve = ve;
         this.vc = vc;
         this.db = db;
+        this.adminService = adminService;
         
         // Create the static content map
         staticContentMap = new Hashtable<String, Pair<String, String>>();
@@ -225,10 +228,9 @@ public class AdminServlet extends HttpServlet {
                 //addProject(request);
                 sendPage(response, request, "/results.html");
             } else if (query.startsWith("/diraddproject")) {
-                AdminService as = AlitheiaCore.getInstance().getAdminService();
-                AdminAction aa = as.create(AddProject.MNEMONIC);
+                AdminAction aa = adminService.create(AddProject.MNEMONIC);
                 aa.addArg("dir", request.getParameter("properties"));
-                as.execute(aa);
+                adminService.execute(aa);
                 if (aa.hasErrors())
                 	vc.put("RESULTS", aa.errors());
                 else
