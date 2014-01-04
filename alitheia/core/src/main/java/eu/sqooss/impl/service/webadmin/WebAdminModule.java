@@ -19,6 +19,7 @@ public class WebAdminModule extends AbstractModule {
 	@Override
 	protected void configure() {
 		bind(WebadminService.class).to(WebadminServiceImpl.class);
+		
 		install(new FactoryModuleBuilder().implement(HttpServlet.class,
 				AdminServlet.class).build(AdminServletFactory.class));
 		install(new FactoryModuleBuilder().implement(AbstractView.class,

@@ -46,10 +46,11 @@ import javax.ws.rs.Produces;
 
 import org.osgi.framework.BundleContext;
 
-import eu.sqooss.core.AlitheiaCore;
+import com.google.inject.Inject;
+
 import eu.sqooss.service.admin.AdminAction;
-import eu.sqooss.service.admin.AdminService;
 import eu.sqooss.service.admin.AdminAction.AdminActionStatus;
+import eu.sqooss.service.admin.AdminService;
 import eu.sqooss.service.admin.actions.AddProject;
 import eu.sqooss.service.admin.actions.RunTimeInfo;
 import eu.sqooss.service.admin.actions.UpdateProject;
@@ -74,12 +75,14 @@ public class AdminServiceImpl extends Thread implements AdminService {
     AtomicLong id;
 
     Logger log;
+    
+    private DBService db;
 
-    public AdminServiceImpl() {
+    @Inject
+    public AdminServiceImpl(DBService db) {
+    	this.db = db;
         liveactions = new ConcurrentHashMap<Long, ActionContainer>();
         id = new AtomicLong();
-        //if (AlitheiaCore.getInstance() != null)
-        //    log = AlitheiaCore.getInstance().getLogManager().createLogger("sqooss.admin");
         start();
     }
 
@@ -97,13 +100,10 @@ public class AdminServiceImpl extends Thread implements AdminService {
     @Override
     public void execute(AdminAction a) {
         boolean commitDB = false;
-        DBService db = null;
-        if (AlitheiaCore.getInstance() != null) {
-            db = AlitheiaCore.getInstance().getDBService();
-            if (db.isDBSessionActive() != true) {
-                commitDB = true;
-                db.startDBSession();
-            }
+
+        if (db.isDBSessionActive() != true) {
+            commitDB = true;
+            db.startDBSession();
         }
         
         debug("Executing action : " + a.id() + " ");
