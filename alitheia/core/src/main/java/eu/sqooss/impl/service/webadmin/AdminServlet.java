@@ -81,17 +81,17 @@ public class AdminServlet extends HttpServlet {
     private Hashtable<String, Pair<String, String>> staticContentMap = null;
 
     // Dynamic substitutions
-    VelocityContext vc;
-    VelocityEngine ve = null;
+    private VelocityContext vc;
+    private VelocityEngine ve;
 
     // Renderer of content
-    WebAdminRenderer adminView = null;
+    private WebAdminRenderer adminView;
 
     // Plug-ins view
-    PluginsView pluginsView = null;
+    private PluginsView pluginsView;
 
     // Projects view
-    ProjectsView projectsView = null;
+    private ProjectsView projectsView;
 
     TranslationProxy tr = new TranslationProxy();
     
@@ -101,14 +101,16 @@ public class AdminServlet extends HttpServlet {
     		WebadminService webadmin,
             VelocityEngine ve,
             VelocityContext vc,
-            DBService db) {
+            DBService db,
+            WebAdminRendererFactory webAdminRendererFactory,
+            PluginsViewFactory pluginsViewFactory,
+            ProjectsViewFactory projectsViewFactory) {
         this.webadmin = webadmin;
         this.bc = bc;
+        this.logger = logger;
         this.ve = ve;
         this.vc = vc;
-        this.logger = logger;
-        
-        System.out.println("&*&*& [AdminServlet] DBService: " + db);
+        this.db = db;
         
         // Create the static content map
         staticContentMap = new Hashtable<String, Pair<String, String>>();
@@ -142,11 +144,11 @@ public class AdminServlet extends HttpServlet {
         dynamicContentMap.put("/jobstat", "jobstat.html");
 
         // Now the dynamic substitutions and renderer
-        adminView = new WebAdminRenderer(bc, vc);
+        adminView = webAdminRendererFactory.create(bc, vc);
 
         // Create the various view objects
-        pluginsView = new PluginsView(bc, vc);
-        projectsView = new ProjectsView(bc, vc);
+        pluginsView = pluginsViewFactory.create(bc, vc);
+        projectsView = projectsViewFactory.create(bc, vc);
     }
 
     /**

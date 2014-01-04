@@ -43,6 +43,9 @@ import org.apache.velocity.VelocityContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.Constants;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import eu.sqooss.service.db.DAObject;
 import eu.sqooss.service.db.Metric;
 import eu.sqooss.service.db.Plugin;
@@ -53,7 +56,8 @@ import eu.sqooss.service.util.StringUtils;
 
 public class PluginsView extends AbstractView{
 
-    public PluginsView(BundleContext bundlecontext, VelocityContext vc) {
+	@Inject
+    public PluginsView(@Assisted BundleContext bundlecontext, @Assisted VelocityContext vc) {
         super(bundlecontext, vc);
     }
 

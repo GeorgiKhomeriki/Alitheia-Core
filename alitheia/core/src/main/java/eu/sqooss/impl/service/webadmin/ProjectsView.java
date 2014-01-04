@@ -34,14 +34,15 @@
 package eu.sqooss.impl.service.webadmin;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.velocity.VelocityContext;
 import org.osgi.framework.BundleContext;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
 
 import eu.sqooss.core.AlitheiaCore;
 import eu.sqooss.service.abstractmetric.AlitheiaPlugin;
@@ -91,7 +92,8 @@ public class ProjectsView extends AbstractView {
      * @param bundlecontext the <code>BundleContext</code> object
      * @param vc the <code>VelocityContext</code> object
      */
-    public ProjectsView(BundleContext bundlecontext, VelocityContext vc) {
+    @Inject
+    public ProjectsView(@Assisted BundleContext bundlecontext, @Assisted VelocityContext vc) {
         super(bundlecontext, vc);
     }
 

@@ -40,6 +40,9 @@ import java.util.List;
 import org.apache.velocity.VelocityContext;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import eu.sqooss.service.scheduler.Job;
 import eu.sqooss.service.util.StringUtils;
 
@@ -58,7 +61,8 @@ public class WebAdminRenderer  extends AbstractView {
      */
     private static long startTime = new Date().getTime();
 
-    public WebAdminRenderer(BundleContext bundlecontext, VelocityContext vc) {
+    @Inject
+    public WebAdminRenderer(@Assisted BundleContext bundlecontext, @Assisted VelocityContext vc) {
         super(bundlecontext, vc);
     }
 

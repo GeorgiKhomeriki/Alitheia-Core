@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServlet;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
+import org.osgi.framework.BundleContext;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -20,6 +21,12 @@ public class WebAdminModule extends AbstractModule {
 		bind(WebadminService.class).to(WebadminServiceImpl.class);
 		install(new FactoryModuleBuilder().implement(HttpServlet.class,
 				AdminServlet.class).build(AdminServletFactory.class));
+		install(new FactoryModuleBuilder().implement(AbstractView.class,
+				WebAdminRenderer.class).build(WebAdminRendererFactory.class));
+		install(new FactoryModuleBuilder().implement(AbstractView.class,
+				PluginsView.class).build(PluginsViewFactory.class));
+		install(new FactoryModuleBuilder().implement(AbstractView.class,
+				ProjectsView.class).build(ProjectsViewFactory.class));
 	}
 
 	@Provides
@@ -48,4 +55,20 @@ public class WebAdminModule extends AbstractModule {
 		return new VelocityContext();
 	}
 
+}
+
+interface AdminServletFactory {
+	AdminServlet create(BundleContext bc, Logger logger);
+}
+
+interface WebAdminRendererFactory {
+	WebAdminRenderer create(BundleContext bc, VelocityContext vc);
+}
+
+interface PluginsViewFactory {
+	PluginsView create(BundleContext bc, VelocityContext vc);
+}
+
+interface ProjectsViewFactory {
+	ProjectsView create(BundleContext bc, VelocityContext vc);
 }
