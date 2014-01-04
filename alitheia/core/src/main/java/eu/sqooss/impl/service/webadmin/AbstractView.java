@@ -45,6 +45,8 @@ import org.apache.velocity.VelocityContext;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
+import com.google.inject.Inject;
+
 import eu.sqooss.core.AlitheiaCore;
 import eu.sqooss.service.cluster.ClusterNodeService;
 import eu.sqooss.service.db.DBService;
@@ -66,7 +68,8 @@ public abstract class AbstractView {
     protected static Logger sobjLogger = null;
 
     // Service components
-    protected DBService sobjDB = null;
+    @Inject
+    protected DBService sobjDB;
     protected static MetricActivator compMA = null;
     protected static PluginAdmin sobjPA = null;
     protected static Scheduler sobjSched = null;
@@ -120,6 +123,7 @@ public abstract class AbstractView {
             
             // Get the database component's instance
             //sobjDB = sobjCore.getDBService();
+            System.out.println("*#* [AbstractView] sobjDB: " + sobjDB + "(" + this + ")");
             if ((sobjDB == null) && (sobjLogger != null))
                 sobjLogger.debug("Could not get the database component's instance.");
 

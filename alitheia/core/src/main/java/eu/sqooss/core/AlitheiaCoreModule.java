@@ -4,7 +4,6 @@ package eu.sqooss.core;
 //import static org.ops4j.peaberry.util.TypeLiterals.export;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provider;
 
 import eu.sqooss.impl.service.admin.AdminServiceImpl;
 import eu.sqooss.impl.service.cluster.ClusterNodeServiceImpl;
@@ -35,11 +34,10 @@ public class AlitheiaCoreModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		System.out.println("*** AlitheiaCoreModule.configure() called");
 		// note: the service is exported to the registry at injection time
 		bind(LogManager.class).to(LogManagerImpl.class);
-		// bind(DBService.class).to(DBServiceImpl.class);
-		bind(DBService.class).toProvider(DBServiceProvider.class);
+		bind(DBService.class).to(DBServiceImpl.class);
+		//bind(DBService.class).toProvider(DBServiceProvider.class);
 		bind(PluginAdmin.class).to(PAServiceImpl.class);
 		bind(Scheduler.class).to(SchedulerServiceImpl.class);
 		bind(TDSService.class).to(TDSServiceImpl.class);
@@ -57,9 +55,9 @@ public class AlitheiaCoreModule extends AbstractModule {
 
 }
 
-class DBServiceProvider implements Provider<DBService> {
-	@Override
-	public DBService get() {
-		return new DBServiceImpl();
-	}
-}
+//class DBServiceProvider implements Provider<DBService> {
+//	@Override
+//	public DBService get() {
+//		return new DBServiceImpl();
+//	}
+//}

@@ -2,6 +2,7 @@ package eu.sqooss.impl.service.webadmin;
 
 import javax.servlet.http.HttpServlet;
 
+import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 
@@ -40,6 +41,11 @@ public class WebAdminModule extends AbstractModule {
 			e.printStackTrace();
 		}
 		return ve;
+	}
+	
+	@Provides
+	VelocityContext provideVelocityContext() {
+		return new VelocityContext();
 	}
 
 }

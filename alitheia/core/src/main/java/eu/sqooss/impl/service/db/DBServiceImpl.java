@@ -62,6 +62,7 @@ import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.cfg.Configuration;
 import org.osgi.framework.BundleContext;
 
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 import eu.sqooss.core.AlitheiaCoreService;
@@ -286,6 +287,7 @@ public class DBServiceImpl implements DBService, AlitheiaCoreService {
         return true;
     }
     
+    @Inject
     public DBServiceImpl() { }
     
     public DBServiceImpl(Properties p, URL configFileURL, Logger l) { 

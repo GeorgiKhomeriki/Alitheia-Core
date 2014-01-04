@@ -72,16 +72,16 @@ public class AdminServlet extends HttpServlet {
     private WebadminService webadmin;
 
     /// Logger given by our owner to write log messages to.
-    private Logger logger = null;
+    private Logger logger;
     
-    private DBService db = null;
+    private DBService db;
 
     // Content tables
     private Hashtable<String, String> dynamicContentMap = null;
     private Hashtable<String, Pair<String, String>> staticContentMap = null;
 
     // Dynamic substitutions
-    VelocityContext vc = null;
+    VelocityContext vc;
     VelocityEngine ve = null;
 
     // Renderer of content
@@ -99,14 +99,16 @@ public class AdminServlet extends HttpServlet {
     public AdminServlet(@Assisted BundleContext bc,
     		@Assisted Logger logger,
     		WebadminService webadmin,
-            VelocityEngine ve) {
+            VelocityEngine ve,
+            VelocityContext vc,
+            DBService db) {
         this.webadmin = webadmin;
         this.bc = bc;
         this.ve = ve;
+        this.vc = vc;
         this.logger = logger;
         
-        AlitheiaCore core = AlitheiaCore.getInstance();
-        db = core.getDBService();
+        System.out.println("&*&*& [AdminServlet] DBService: " + db);
         
         // Create the static content map
         staticContentMap = new Hashtable<String, Pair<String, String>>();
@@ -140,7 +142,6 @@ public class AdminServlet extends HttpServlet {
         dynamicContentMap.put("/jobstat", "jobstat.html");
 
         // Now the dynamic substitutions and renderer
-        vc = new VelocityContext();
         adminView = new WebAdminRenderer(bc, vc);
 
         // Create the various view objects
