@@ -45,6 +45,7 @@ import java.util.regex.Pattern;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.sqooss.service.db.DBService;
 import eu.sqooss.service.db.ProjectFile;
@@ -67,6 +68,7 @@ import eu.sqooss.service.tds.TDSService;
 import eu.sqooss.service.util.FileUtils;
 
 /** {@inheritDoc} */
+@Singleton
 public class FDSServiceImpl implements FDSService, Runnable {
     /** The logger for the FDS. */
     private Logger logger = null;

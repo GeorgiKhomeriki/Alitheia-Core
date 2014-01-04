@@ -51,6 +51,7 @@ import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.sqooss.service.cluster.ClusterNodeActionException;
 import eu.sqooss.service.cluster.ClusterNodeService;
@@ -64,6 +65,7 @@ import eu.sqooss.service.updater.UpdaterService;
  * @author George M. Zouganelis
  *
  */
+@Singleton
 public class ClusterNodeServiceImpl extends HttpServlet implements ClusterNodeService {
     private static final long serialVersionUID = 1L;
 	static final String localServerName;

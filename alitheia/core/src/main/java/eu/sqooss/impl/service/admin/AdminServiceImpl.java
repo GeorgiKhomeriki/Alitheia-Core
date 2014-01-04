@@ -47,6 +47,7 @@ import javax.ws.rs.Produces;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.sqooss.service.admin.AdminAction;
 import eu.sqooss.service.admin.AdminAction.AdminActionStatus;
@@ -63,6 +64,7 @@ import eu.sqooss.service.logging.Logger;
  * 
  * @author Georgios Gousios <gousiosg@gmail.com>
  */
+@Singleton
 @Path("/api")
 public class AdminServiceImpl extends Thread implements AdminService {
 

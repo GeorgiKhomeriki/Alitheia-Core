@@ -50,6 +50,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.sqooss.service.abstractmetric.AbstractMetric;
 import eu.sqooss.service.abstractmetric.AlitheiaPlugin;
@@ -82,6 +83,7 @@ import eu.sqooss.service.scheduler.Scheduler;
 import eu.sqooss.service.scheduler.SchedulerException;
 import eu.sqooss.service.util.GraphTS;
 
+@Singleton
 public class MetricActivatorImpl  implements MetricActivator {
 
     /** The parent bundle's context object. */
