@@ -38,7 +38,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.osgi.framework.BundleContext;
 
-import eu.sqooss.core.AlitheiaCore;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+
 import eu.sqooss.core.AlitheiaCoreService;
 import eu.sqooss.service.db.ClusterNode;
 import eu.sqooss.service.db.DBService;
@@ -49,12 +51,18 @@ import eu.sqooss.service.tds.ProjectAccessor;
 import eu.sqooss.service.tds.TDSService;
 import eu.sqooss.service.util.URIUtills;
 
+@Singleton
 public class TDSServiceImpl implements TDSService, AlitheiaCoreService {
     private Logger logger = null;
     private ConcurrentHashMap<Long, ProjectDataAccessorImpl> accessorPool;
     private ConcurrentHashMap<ProjectDataAccessorImpl, Integer> accessorClaims;
     
-    public TDSServiceImpl() {}
+    private DBService db;
+    
+    @Inject
+    public TDSServiceImpl(DBService db) {
+    	this.db = db;
+    }
 
     // Interface methods
 
@@ -144,7 +152,6 @@ public class TDSServiceImpl implements TDSService, AlitheiaCoreService {
      */
     private void stuffer() {
         logger.info("TDS is now running the stuffer.");
-        DBService db = AlitheiaCore.getInstance().getDBService();
         
         if (db != null && db.startDBSession()) {
             
