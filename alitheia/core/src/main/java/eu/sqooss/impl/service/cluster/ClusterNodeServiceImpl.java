@@ -59,7 +59,6 @@ import eu.sqooss.service.db.ClusterNode;
 import eu.sqooss.service.db.DBService;
 import eu.sqooss.service.db.StoredProject;
 import eu.sqooss.service.logging.Logger;
-import eu.sqooss.service.updater.UpdaterService;
 
 /**
  * @author George M. Zouganelis
@@ -88,14 +87,13 @@ public class ClusterNodeServiceImpl extends HttpServlet implements ClusterNodeSe
     private BundleContext context;
     
     private DBService dbs;
-    private UpdaterService upds;
+    // private UpdaterService upds; // NOTE: unused and caused cyclic dependency 
     
     private ClusterNode thisNode = null;
 
     @Inject
-    public ClusterNodeServiceImpl(DBService dbs, UpdaterService upds) {
+    public ClusterNodeServiceImpl(DBService dbs) {
     	this.dbs = dbs;
-    	this.upds = upds;
     }
     
     public String getClusterNodeName(){
