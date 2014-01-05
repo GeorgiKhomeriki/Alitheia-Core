@@ -43,6 +43,7 @@ import java.util.Vector;
 import org.osgi.framework.BundleContext;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import eu.sqooss.impl.service.logging.LogManagerImpl;
 import eu.sqooss.service.admin.AdminService;
@@ -66,6 +67,7 @@ import eu.sqooss.service.webadmin.WebadminService;
  * getInstance(); after that you can use the get*Service() methods to get each
  * of the other core components as needed.
  */
+@Singleton
 public class AlitheiaCore {
 
 	@Inject

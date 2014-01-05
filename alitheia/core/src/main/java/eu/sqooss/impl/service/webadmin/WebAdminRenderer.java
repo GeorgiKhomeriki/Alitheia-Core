@@ -43,7 +43,9 @@ import org.osgi.framework.BundleContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+import eu.sqooss.service.logging.LogManager;
 import eu.sqooss.service.scheduler.Job;
+import eu.sqooss.service.scheduler.Scheduler;
 import eu.sqooss.service.util.StringUtils;
 
 /**
@@ -53,17 +55,23 @@ import eu.sqooss.service.util.StringUtils;
  * @author, Paul J. Adams <paul.adams@siriusit.co.uk>
  * @author, Boryan Yotov <b.yotov@prosyst.com>
  */
-public class WebAdminRenderer  extends AbstractView {
+public class WebAdminRenderer extends AbstractView {
     /**
      * Represents the system time at which the WebAdminRender (and
      * thus the system) was started. This is required for the system
      * uptime display.
      */
     private static long startTime = new Date().getTime();
+    
+    private Scheduler sched;
+    private LogManager logManager;
 
     @Inject
-    public WebAdminRenderer(@Assisted BundleContext bundlecontext, @Assisted VelocityContext vc) {
+    public WebAdminRenderer(@Assisted BundleContext bundlecontext, @Assisted VelocityContext vc,
+    		Scheduler sched, LogManager logManager) {
         super(bundlecontext, vc);
+        this.sched = sched;
+        this.logManager = logManager;
     }
 
     /**
@@ -72,9 +80,9 @@ public class WebAdminRenderer  extends AbstractView {
      *
      * @return a String representing the HTML table
      */
-    public static String renderJobFailStats() {
+    public String renderJobFailStats() {
         StringBuilder result = new StringBuilder();
-        HashMap<String,Integer> fjobs = sobjSched.getSchedulerStats().getFailedJobTypes();
+        HashMap<String,Integer> fjobs = sched.getSchedulerStats().getFailedJobTypes();
         result.append("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n");
         result.append("\t<thead>\n");
         result.append("\t\t<tr>\n");
@@ -102,9 +110,9 @@ public class WebAdminRenderer  extends AbstractView {
      * failed and the recorded exceptions
      * @return
      */
-    public static String renderFailedJobs() {
+    public String renderFailedJobs() {
         StringBuilder result = new StringBuilder();
-        Job[] jobs = sobjSched.getFailedQueue();
+        Job[] jobs = sched.getFailedQueue();
         result.append("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n");
         result.append("\t<thead>\n");
         result.append("\t\t<tr>\n");
@@ -189,8 +197,8 @@ public class WebAdminRenderer  extends AbstractView {
      *
      * @return a String representing the HTML unordered list items
      */
-    public static String renderLogs() {
-        String[] names = sobjLogManager.getRecentEntries();
+    public String renderLogs() {
+        String[] names = logManager.getRecentEntries();
 
         if ((names != null) && (names.length > 0)) {
             StringBuilder b = new StringBuilder();
@@ -226,9 +234,9 @@ public class WebAdminRenderer  extends AbstractView {
     }
     
 
-    public static String renderJobWaitStats() {
+    public String renderJobWaitStats() {
         StringBuilder result = new StringBuilder();
-        HashMap<String,Integer> wjobs = sobjSched.getSchedulerStats().getWaitingJobTypes();
+        HashMap<String,Integer> wjobs = sched.getSchedulerStats().getWaitingJobTypes();
         result.append("<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\n");
         result.append("\t<thead>\n");
         result.append("\t\t<tr>\n");
@@ -251,9 +259,9 @@ public class WebAdminRenderer  extends AbstractView {
         return result.toString();
     }
 
-    public static String renderJobRunStats() {
+    public String renderJobRunStats() {
         StringBuilder result = new StringBuilder();
-        List<String> rjobs = sobjSched.getSchedulerStats().getRunJobs();
+        List<String> rjobs = sched.getSchedulerStats().getRunJobs();
         if (rjobs.size() == 0) {
             return "No running jobs";
         }

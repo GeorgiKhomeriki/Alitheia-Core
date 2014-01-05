@@ -11,7 +11,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
+import eu.sqooss.service.db.StoredProject;
 import eu.sqooss.service.logging.Logger;
+import eu.sqooss.service.scheduler.Job;
 import eu.sqooss.service.webadmin.WebadminService;
 
 public class WebAdminModule extends AbstractModule {
@@ -28,6 +30,8 @@ public class WebAdminModule extends AbstractModule {
 				PluginsView.class).build(PluginsViewFactory.class));
 		install(new FactoryModuleBuilder().implement(AbstractView.class,
 				ProjectsView.class).build(ProjectsViewFactory.class));
+		install(new FactoryModuleBuilder().implement(Job.class,
+				ProjectDeleteJob.class).build(ProjectDeleteJobFactory.class));
 	}
 
 	@Provides
@@ -72,4 +76,8 @@ interface PluginsViewFactory {
 
 interface ProjectsViewFactory {
 	ProjectsView create(BundleContext bc, VelocityContext vc);
+}
+
+interface ProjectDeleteJobFactory {
+	ProjectDeleteJob create(StoredProject sp);
 }

@@ -61,6 +61,7 @@ import eu.sqooss.service.admin.AdminService;
 import eu.sqooss.service.admin.actions.AddProject;
 import eu.sqooss.service.db.DBService;
 import eu.sqooss.service.logging.Logger;
+import eu.sqooss.service.scheduler.Scheduler;
 import eu.sqooss.service.util.Pair;
 import eu.sqooss.service.webadmin.WebadminService;
 
@@ -74,8 +75,8 @@ public class AdminServlet extends HttpServlet {
     private Logger logger;
     
     private DBService db;
-    
     private AdminService adminService;
+    private Scheduler scheduler;
 
     // Content tables
     private Hashtable<String, String> dynamicContentMap = null;
@@ -104,6 +105,7 @@ public class AdminServlet extends HttpServlet {
             VelocityContext vc,
             DBService db,
             AdminService adminService,
+            Scheduler scheduler,
             WebAdminRendererFactory webAdminRendererFactory,
             PluginsViewFactory pluginsViewFactory,
             ProjectsViewFactory projectsViewFactory) {
@@ -114,6 +116,7 @@ public class AdminServlet extends HttpServlet {
         this.vc = vc;
         this.db = db;
         this.adminService = adminService;
+        this.scheduler = scheduler;
         
         // Create the static content map
         staticContentMap = new Hashtable<String, Pair<String, String>>();
@@ -319,7 +322,7 @@ public class AdminServlet extends HttpServlet {
         vc.put("UPTIME", WebAdminRenderer.getUptime());
 
         // Object-based substitutions
-        vc.put("scheduler", adminView.sobjSched.getSchedulerStats());
+        vc.put("scheduler", scheduler.getSchedulerStats());
         vc.put("tr",tr); // translations proxy
         vc.put("admin",adminView);
         vc.put("projects",projectsView);
