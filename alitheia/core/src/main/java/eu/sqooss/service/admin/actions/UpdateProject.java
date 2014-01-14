@@ -47,6 +47,10 @@ public class UpdateProject extends AdminActionBase {
 
     public static final String MNEMONIC = "upd";
     
+    public UpdateProject() {
+        super(AlitheiaCore.getInstance().getLogManager().createLogger("sqooss.admin"));
+    }
+    
     @Override
     public String mnemonic() {
         return MNEMONIC;

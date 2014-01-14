@@ -40,7 +40,7 @@ public class RunTimeInfo extends AdminActionBase {
     private static final String descr = "Returns misc runtime information";
 
     public RunTimeInfo() {
-        super();
+        super(AlitheiaCore.getInstance().getLogManager().createLogger("sqooss.admin"));
     }
 
     @Override

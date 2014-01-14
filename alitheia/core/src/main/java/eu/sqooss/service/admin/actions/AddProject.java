@@ -65,6 +65,10 @@ public class AddProject extends AdminActionBase {
 	
     Properties p;
     
+    public AddProject() {
+        super(AlitheiaCore.getInstance().getLogManager().createLogger("sqooss.admin"));
+    }
+    
     @Override
     public String mnemonic() {
         return MNEMONIC;

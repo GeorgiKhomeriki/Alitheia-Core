@@ -4,6 +4,10 @@ import eu.sqooss.service.admin.AdminActionBase;
 
 public class SucceedingAction extends AdminActionBase {
 
+    public SucceedingAction() {
+        super(null);
+    }
+    
     @Override
     public String mnemonic() {
         return "win";

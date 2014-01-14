@@ -4,6 +4,10 @@ import eu.sqooss.service.admin.AdminActionBase;
 
 public class FailingAction extends AdminActionBase {
 
+    public FailingAction() {
+        super(null);
+    }
+    
     @Override
     public String mnemonic() {
         return "fail";

@@ -3,7 +3,6 @@ package eu.sqooss.service.admin;
 import java.util.HashMap;
 import java.util.Map;
 
-import eu.sqooss.core.AlitheiaCore;
 import eu.sqooss.service.logging.Logger;
 
 public abstract class AdminActionBase implements AdminAction {
@@ -17,10 +16,9 @@ public abstract class AdminActionBase implements AdminAction {
 
     protected Logger log;
     
-    protected AdminActionBase() {
+    protected AdminActionBase(Logger log) {
         status = AdminActionStatus.CREATED;
-        if (AlitheiaCore.getInstance() != null)
-            log = AlitheiaCore.getInstance().getLogManager().createLogger("sqooss.admin");
+        this.log = log;
     }
 
     @Override
