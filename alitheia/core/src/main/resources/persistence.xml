@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+        http://java.sun.com/xml/ns/persistence/persistence_1_0.xsd" version="1.0">
+
+        <!-- A JPA Persistence Unit -->
+        <persistence-unit name="AlitheiaJpaUnit" transaction-type="RESOURCE_LOCAL">
+                <provider>org.hibernate.ejb.HibernatePersistence</provider>
+ 
+                <!-- JPA entities must be registered here -->
+                <class>eu.sqooss.service.db.Bug</class>
+		        <class>eu.sqooss.service.db.BugStatus</class>
+		        <class>eu.sqooss.service.db.BugReportMessage</class>
+		        <class>eu.sqooss.service.db.BugSeverity</class>
+		        <class>eu.sqooss.service.db.BugPriority</class>
+		        <class>eu.sqooss.service.db.BugResolution</class>
+		        <class>eu.sqooss.service.db.MailingList</class>
+		        <class>eu.sqooss.service.db.MailMessage</class>
+		        <class>eu.sqooss.service.db.MailingListThread</class>
+		        <class>eu.sqooss.service.db.ProjectVersion</class>
+		        <class>eu.sqooss.service.db.ProjectFile</class>
+		        <class>eu.sqooss.service.db.ProjectFileState</class>
+		        <class>eu.sqooss.service.db.Developer</class>
+		        <class>eu.sqooss.service.db.DeveloperAlias</class>
+		        <class>eu.sqooss.service.db.Directory</class>
+		        <class>eu.sqooss.service.db.Tag</class>
+		        <class>eu.sqooss.service.db.Branch</class>
+		        <class>eu.sqooss.service.db.StoredProject</class>
+		        <class>eu.sqooss.service.db.StoredProjectConfig</class>
+		        <class>eu.sqooss.service.db.ConfigurationOption</class>
+		        <class>eu.sqooss.service.db.ClusterNode</class>
+		        <class>eu.sqooss.service.db.Plugin</class>
+		        <class>eu.sqooss.service.db.PluginConfiguration</class>
+		        <class>eu.sqooss.service.db.Metric</class>
+		        <class>eu.sqooss.service.db.MetricType</class>
+		        <class>eu.sqooss.service.db.StoredProjectMeasurement</class>
+		        <class>eu.sqooss.service.db.ProjectVersionMeasurement</class>
+		        <class>eu.sqooss.service.db.ProjectFileMeasurement</class>
+		        <class>eu.sqooss.service.db.MailingListThreadMeasurement</class>
+		        <class>eu.sqooss.service.db.MailMessageMeasurement</class>
+		        <class>eu.sqooss.service.db.OhlohDeveloper</class>
+		        <class>eu.sqooss.service.db.ProjectVersionParent</class>
+		        <class>eu.sqooss.service.db.NameSpace</class>
+		        <class>eu.sqooss.service.db.ExecutionUnit</class>
+		        <class>eu.sqooss.service.db.EncapsulationUnit</class>
+		        <class>eu.sqooss.service.db.NameSpaceMeasurement</class>
+		        <class>eu.sqooss.service.db.ExecutionUnitMeasurement</class>
+		        <class>eu.sqooss.service.db.EncapsulationUnitMeasurement</class>
+
+                <properties>
+                        <!-- vendor-specific properties go here -->
+                </properties>
+        </persistence-unit>
+
+</persistence>

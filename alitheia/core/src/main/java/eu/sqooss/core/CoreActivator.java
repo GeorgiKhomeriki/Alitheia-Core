@@ -33,6 +33,8 @@
 
 package eu.sqooss.core;
 
+import static org.ops4j.peaberry.Peaberry.osgiModule;
+
 import javax.inject.Inject;
 
 import org.osgi.framework.BundleActivator;
@@ -40,8 +42,9 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 
 import com.google.inject.Guice;
+import com.google.inject.persist.PersistService;
+import com.google.inject.persist.jpa.JpaPersistModule;
 
-import static org.ops4j.peaberry.Peaberry.osgiModule;
 import eu.sqooss.impl.service.admin.AdminServiceModule;
 import eu.sqooss.impl.service.cluster.ClusterNodeModule;
 import eu.sqooss.impl.service.db.DBServiceModule;
@@ -62,6 +65,9 @@ public class CoreActivator implements BundleActivator {
     @Inject
     private AlitheiaCore core;
     
+    @Inject
+    PersistService persist;
+    
     /** Keeps the <code>AlitheaCore</code>'s service registration instance. */
     private ServiceRegistration sregCore;
 
@@ -73,13 +79,21 @@ public class CoreActivator implements BundleActivator {
                                  new UpdaterServiceModule(), new AdminServiceModule(),
                                  new ClusterNodeModule(), new LogManagerModule(),
                                  new PluginAdminModule(), new TDSServiceModule(),
-                                 new FDSServiceModule(), osgiModule(bc)
+                                 new FDSServiceModule(), osgiModule(bc), new JpaPersistModule("AlitheiaJpaUnit")
             ).injectMembers(this);
         } catch (Throwable t) {
             t.printStackTrace();
         }
         core.init();
         sregCore = bc.registerService(AlitheiaCore.class.getName(), core, null);
+        System.out.println("PERSISTTTTTTT: " + persist);
+        System.out.println("AAAA");
+        persist.start();
+        System.out.println("BBB");
+        System.out.println(persist);
+        System.out.println("CCCCC");
+        persist.stop();
+        System.out.println("DDDDD");
     }
   
     public void stop(BundleContext bc) throws Exception {
